@@ -6,7 +6,7 @@ from tkinter import messagebox
 root = tkinter.Tk()
 root.withdraw()
 
-board = pyfirmata.Arduino('/dev/ttyACM0')
+board = pyfirmata.Arduino('/dev/ttyACM1')
 
 it = pyfirmata.util.Iterator(board)
 it.start()
