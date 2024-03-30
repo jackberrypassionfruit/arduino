@@ -1,20 +1,21 @@
-#include "Arduino_LED_Matrix.h"
-#include "WiFiS3.h"
+// #include "Arduino_LED_Matrix.h"
+#include "WiFi.h"
+#include "arduino_secrets.h"
 
-#define LED1 13
-#define LED2 8
+#define LED1 2 // BUILTINLED
+#define LED2 3
 
-ArduinoLEDMatrix matrix;
+// ArduinoLEDMatrix matrix;
 
-const uint32_t hi[] = {
-  0xcdfcdfcc,
-  0x4fc4fc4c,
-  0xc4cdfcdf,
-  66
-};
+// const uint32_t hi[] = {
+//   0xcdfcdfcc,
+//   0x4fc4fc4c,
+//   0xc4cdfcdf,
+//   66
+// };
 
-char ssid[] = "TP-Link_1936"; //Enter your WIFI SSID
-char pass[] = "97792710";   //Enter your WIFI password
+char ssid[] = SSID_JOANNA;   //Enter your WIFI SSID
+char pass[] = PASS_JOANNA;   //Enter your WIFI password
 int keyIndex = 0;      // your network key index number (needed only for WEP)
 
 String output1 = "off";
@@ -29,8 +30,11 @@ int status = WL_IDLE_STATUS;
 WiFiServer server(80);
 
 void setup() {
-  Serial.begin(9600);
-  matrix.begin();
+  Serial.begin(115200);
+  // matrix.begin();
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
 
   // set the LED pins to OUTPUT
   pinMode(LED1, OUTPUT);
@@ -40,35 +44,42 @@ void setup() {
   digitalWrite(LED1, LOW);
   digitalWrite(LED2, LOW);
 
-  if (WiFi.status() == WL_NO_MODULE) {
-    Serial.println("Communication with WiFi module failed!");
-    while (true);
-  }
+  // if (WiFi.status() == WL_NO_MODULE) {
+  //   Serial.println("Communication with WiFi module failed!");
+  //   while (true);
+  // }
 
-  String fv = WiFi.firmwareVersion();
-  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
-    Serial.println("Please upgrade the firmware");
-  }
+  // String fv = WiFi.firmwareVersion();
+  // if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
+  //   Serial.println("Please upgrade the firmware");
+  // }
 
-  while (status != WL_CONNECTED) {
-    Serial.print("Network named: ");
-    Serial.println(ssid);
-    status = WiFi.begin(ssid, pass);
-    delay(10000);
-  }
+  status = WiFi.begin(ssid, pass);
+  // while (status != WL_CONNECTED) {
+  //   Serial.print("What we want: ");
+  //   Serial.println(WL_CONNECTED);
+  //   // Serial.print("Network named: ");
+  //   // Serial.println(ssid);
+  //   status = WiFi.begin(ssid, pass);
+
+  //   Serial.print("What we're getting: ");
+  //   Serial.println(status);
+  //   delay(10000);
+  // }
+  delay(10000); // myOwn
   server.begin();
   printWifiStatus();
 }
 
 void loop() {
   webServer();
-  LEDMatrix();
+  // LEDMatrix();
   delay(0.01);
 }
 
-void LEDMatrix() {
-  matrix.loadFrame(hi);
-}
+// void LEDMatrix() {
+//   matrix.loadFrame(hi);
+// }
 
 void webServer() {
   WiFiClient client = server.available();

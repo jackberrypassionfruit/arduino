@@ -16,22 +16,22 @@
   adapted to WiFi AP by Adafruit
  */
 
-#include "WiFiS3.h"
+#include "WiFi.h"
 
-// #include "arduino_secrets.h" 
+#include "arduino_secrets.h" 
 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = "TP-Link_1936";  // SECRET_SSID;        // your network SSID (name)
-char pass[] = "97792710";   // SECRET_PASS;        // your network password (use for WPA, or use as key for WEP)
+char ssid[] = SSID_JOANNA;        // your network SSID (name)
+char pass[] = PASS_JOANNA;        // your network password (use for WPA, or use as key for WEP)
 int keyIndex = 0;                 // your network key index number (needed only for WEP)
 
-int led =  LED_BUILTIN;
+int led =  2;
 int status = WL_IDLE_STATUS;
 WiFiServer server(80);
 
 void setup() {
   //Initialize serial and wait for port to open:
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
@@ -39,16 +39,16 @@ void setup() {
 
   pinMode(led, OUTPUT);      // set the LED pin mode
 
-  // check for the WiFi module:
-  if (WiFi.status() == WL_NO_MODULE) {
-    Serial.println("Communication with WiFi module failed!");
-    // don't continue
-    while (true);
-  }
-  String fv = WiFi.firmwareVersion();
-  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
-    Serial.println("Please upgrade the firmware");
-  }
+  // // check for the WiFi module:
+  // if (WiFi.status() == WL_NO_MODULE) {
+  //   Serial.println("Communication with WiFi module failed!");
+  //   // don't continue
+  //   while (true);
+  // }
+  // String fv = WiFi.firmwareVersion();
+  // if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
+  //   Serial.println("Please upgrade the firmware");
+  // }
 
   // by default the local IP address will be 192.168.4.1
   // you can override it with the following:
@@ -81,18 +81,18 @@ void setup() {
 void loop() {
   delay(10);
   // compare the previous status to the current status
-  if (status != WiFi.status()) {
-    // it has changed update the variable
-    status = WiFi.status();
+  // if (status != WiFi.status()) {
+  //   // it has changed update the variable
+  //   status = WiFi.status();
 
-    if (status == WL_AP_CONNECTED) {
-      // a device has connected to the AP
-      Serial.println("Device connected to AP");
-    } else {
-      // a device has disconnected from the AP, and we are back in listening mode
-      Serial.println("Device disconnected from AP");
-    }
-  }
+  //   if (status == WL_AP_CONNECTED) {
+  //     // a device has connected to the AP
+  //     Serial.println("Device connected to AP");
+  //   } else {
+  //     // a device has disconnected from the AP, and we are back in listening mode
+  //     Serial.println("Device disconnected from AP");
+  //   }
+  // }
   
   WiFiClient client = server.available();   // listen for incoming clients
 
