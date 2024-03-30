@@ -89,7 +89,8 @@ void webServer() {
             client.println(
               "HTTP/1.1 200 OK"
               "Content-type:text/html"
-              "Connection: close\n"
+              "Connection: close"
+              "\n"
             );
 
             if (header.indexOf("GET /ledon1") >= 0) {
